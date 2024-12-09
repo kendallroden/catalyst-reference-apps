@@ -169,18 +169,22 @@ jobs:
 
       # Retrieve API Tokens and URLs for all App IDs
       - name: Retrieve API Token for each service, http and grpc urls for the project
+
         run: |
           # Initialize an empty array for the final output
           json_array="[]"
 
           # Fetch the project details to extract http_url and grpc_url
+
           diagrid_project_output=$(diagrid project get ${{vars.DIAGRID_PROJECT}})
 
           # Extract the HTTP and GRPC URLs from the project output
           http_url=$(echo "$diagrid_project_output" | grep -A 1 "http:" | grep "url:" | awk '{print $2}')
           grpc_url=$(echo "$diagrid_project_output" | grep -A 1 "grpc:" | grep "url:" | awk '{print $2}')
 
+
           for service in ./aws-pubsub/services/*/ ; do
+
             service_name=$(basename "$service")
             
             # Fetch the Diagrid App ID information in JSON format
@@ -218,6 +222,7 @@ jobs:
           echo "service_tokens<<$EOF" >> $GITHUB_OUTPUT
           echo "$json_array" >> $GITHUB_OUTPUT
           echo "$EOF" >> $GITHUB_OUTPUT
+
 
           cat ./aws-pubsub/cdk-infra/service_tokens.json
 
@@ -339,7 +344,9 @@ jobs:
           cat alb_services.json
 
       # Loop through the JSON array and extract values
+
       - name: Update Catalyst App IDs with AWS App Endpoints
+
         run: |
           # Read the JSON array from the file
           json_array=$(cat alb_services.json)
@@ -352,7 +359,9 @@ jobs:
 
               service=$(_jq '.service')
               alb_dns=$(_jq '.url')
+
               diagrid appid update $service --app-endpoint "http://$alb_dns" -w --api-key ${{secrets.CATALYST_API_KEY}}
+
 
               echo "Service: $service, ALB DNS: $alb_dns"
               
