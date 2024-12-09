@@ -23,7 +23,7 @@ jobs:
       # Log into Diagrid
       - name: Log Into Diagrid
         run: |
-          diagrid login --api-key ${{secrets.CATALYST_API_KEY}}
+          diagrid login --api https://api.dev.diagrid.io --api-key ${{secrets.CATALYST_API_KEY}}
       # Diagrid Version
       - name: Diagrid Version
         run: |
