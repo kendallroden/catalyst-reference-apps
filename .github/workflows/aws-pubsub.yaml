@@ -159,7 +159,7 @@ jobs:
           sudo mv ./diagrid /usr/local/bin
       - name: Log in to Diagrid
         run: |
-          diagrid login --api-key ${{secrets.CATALYST_API_KEY}}
+          diagrid login --api https://api.dev.diagrid.io --api-key ${{secrets.CATALYST_API_KEY}}
       - name: Diagrid Version
         run: |
           diagrid version
